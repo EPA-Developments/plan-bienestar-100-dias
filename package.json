@@ -1,0 +1,70 @@
+{
+  "name": "@epa/careplan-menopausia",
+  "version": "0.1.0",
+  "description": "Fabrica de recursos FHIR R4 para el CarePlan de salud cardiovascular de la mujer en menopausia (Plan Bienestar 100 Dias), basado en el marco AHA Cardiovascular-Kidney-Metabolic (Ndumele) y la declaracion AHA de menopausia. Modulo drop-in para apps FooMedical / Medplum.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "example": "tsx examples/generate-menopausia-bundle.ts"
+  },
+  "keywords": [
+    "fhir",
+    "fhir-r4",
+    "careplan",
+    "medplum",
+    "foomedical",
+    "menopause",
+    "menopausia",
+    "cardiovascular",
+    "cardiometabolic",
+    "ckm",
+    "womens-health",
+    "plan-bienestar-100-dias",
+    "epa-bienestar"
+  ],
+  "peerDependencies": {
+    "@medplum/fhirtypes": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@medplum/fhirtypes": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@medplum/fhirtypes": "^5.1.24",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EPA-Developments/plan-bienestar-100-dias.git"
+  }
+}
