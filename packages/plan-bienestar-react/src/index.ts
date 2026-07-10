@@ -38,7 +38,7 @@ export { PlanBienestarRoutes, type PlanBienestarRoutesProps } from './PlanBienes
 export { PasosDelPlan, type PasosDelPlanProps } from './pages/PasosDelPlan';
 export { MetasDelPlan, type MetasDelPlanProps } from './pages/MetasDelPlan';
 export { CuestionarioDelPlan, type CuestionarioDelPlanProps } from './pages/CuestionarioDelPlan';
-export { asegurarPlanDefinition } from './servidor';
+export { asegurarPlanDefinition, asegurarRecursosDelPlan } from './servidor';
 export { textoMeta, tipoDePaso, pasoConCuestionario } from './fhirTexto';
 
 // Re-exports handy for seeding and advanced use.

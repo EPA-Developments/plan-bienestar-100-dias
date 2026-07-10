@@ -1,5 +1,6 @@
 import {
   MENOPAUSE_PLAN_DEFINITION_URL,
+  MENOPAUSE_QUESTIONNAIRE_URL,
   buildMenopauseCarePlanBundle,
 } from '@epa/careplan-menopausia';
 import { createReference, getReferenceString } from '@medplum/core';
@@ -107,9 +108,16 @@ export function usePlanBienestar(options: UsePlanBienestarOptions = {}): PlanBie
 
   const empezarPlan = useCallback(async (): Promise<CarePlan | undefined> => {
     if (!paciente?.id) return undefined;
+    // Preferir el Questionnaire ya publicado en el servidor: bajo politicas de
+    // acceso restrictivas los pacientes no pueden crear Questionnaires.
+    const cuestionarios = await medplum
+      .searchResources('Questionnaire', { url: MENOPAUSE_QUESTIONNAIRE_URL, status: 'active' })
+      .catch(() => []);
+    const publicado = cuestionarios[0];
     const bundle = buildMenopauseCarePlanBundle({
       patient: createReference(paciente),
       planDefinitionUrl: url,
+      existingQuestionnaire: publicado ? createReference(publicado) : undefined,
       now: new Date().toISOString().slice(0, 10),
     });
     const resultado = (await medplum.executeBatch(bundle)) as Bundle;

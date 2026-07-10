@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@epa/careplan-menopausia": "^0.2.0",
-    "@epa/plan-bienestar-react": "^0.1.0",
+    "@epa/careplan-menopausia": "^0.3.0",
+    "@epa/plan-bienestar-react": "^0.2.0",
     "@mantine/core": "^8.3.18",
     "@mantine/hooks": "^8.3.18",
     "@mantine/notifications": "^8.3.18",
