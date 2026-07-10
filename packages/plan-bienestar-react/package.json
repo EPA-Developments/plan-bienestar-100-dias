@@ -1,6 +1,6 @@
 {
   "name": "@epa/plan-bienestar-react",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Modulo React drop-in del Plan Bienestar 100 Dias (salud cardiovascular en menopausia) para apps FooMedical / Medplum. Tarjeta auto-gating por PlanDefinition.useContext, rutas del plan y hooks de elegibilidad.",
   "license": "Apache-2.0",
   "type": "module",
