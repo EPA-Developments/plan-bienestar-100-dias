@@ -39,6 +39,7 @@ export const LOINC = {
 
   // Kidney (CKM syndrome component) -------------------------------------
   urineAlbuminCreatinineRatio: loinc('9318-7', 'Albumin/Creatinine [Mass Ratio] in Urine'),
+  egfr: loinc('33914-3', 'Glomerular filtration rate/1.73 sq M.predicted'),
 
   // Behaviours / lifestyle ----------------------------------------------
   smokingStatus: loinc('72166-2', 'Tobacco smoking status'),

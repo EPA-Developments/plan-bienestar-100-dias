@@ -100,7 +100,7 @@ Después, la gestión es 100% desde el Medplum App (los 2 clicks).
 
 1. ~~Recursos FHIR R4 del CarePlan de menopausia (plantilla)~~ ✅
 2. ~~Módulo React drop-in + PlanDefinition con `useContext` + demo~~ ✅
-3. Estadificación CKM 0–4 (Ndumele) como clasificación/`Observation`.
+3. ~~Estadificación CKM 0–4 (Ndumele)~~ ✅ — motor determinístico (`evaluateCkmStage`), extracción desde FHIR (`extractCkmInput`), registro como `Observation` y tarjeta paciente (`EstadioCkmCard`). Simplificaciones documentadas: matriz KDIGO completa y la vía "riesgo predicho alto" llegan con PREVENT.
 4. Estratificación de riesgo (PREVENT) que module metas y seguimiento.
 5. Perfiles AR Core (msal.gob.ar) y otras etapas de la vida (embarazo, posparto, hombre 40–60, …).
 

@@ -40,6 +40,23 @@ export {
   type QuestionnaireContext,
 } from './builders/index.js';
 
+// CKM staging (AHA/Ndumele 0-4) ------------------------------------------------
+export {
+  evaluateCkmStage,
+  extractCkmInput,
+  buildCkmStageObservation,
+  CKM_LIMITES,
+  CKM_STAGE_LABEL,
+  type CkmStage,
+  type CkmSubStage,
+  type CkmCriterion,
+  type CkmConditions,
+  type CkmInput,
+  type CkmResult,
+  type CkmFhirContext,
+  type CkmObservationContext,
+} from './ckm/index.js';
+
 // Eligibility (Patient vs PlanDefinition.useContext) ---------------------------
 export {
   evaluateEligibility,

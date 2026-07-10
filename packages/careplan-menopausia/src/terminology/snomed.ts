@@ -44,6 +44,34 @@ export const SNOMED = {
   /** from EPA Bienestar terminology table */
   exSmoker: sct('8517006', 'Ex-smoker'),
 
+  // CKM staging: conditions (stage 2) ------------------------------------
+  /** high confidence */
+  diabetesMellitus: sct('73211009', 'Diabetes mellitus'),
+  /** high confidence */
+  type2Diabetes: sct('44054006', 'Diabetes mellitus type 2'),
+  /** high confidence */
+  hypertension: sct('38341003', 'Hypertensive disorder, systemic arterial'),
+  /** TODO confirm */
+  metabolicSyndrome: sct('237602007', 'Metabolic syndrome X'),
+  /** TODO confirm */
+  chronicKidneyDisease: sct('709044004', 'Chronic kidney disease'),
+
+  // CKM staging: clinical CVD (stage 4) -----------------------------------
+  /** high confidence */
+  coronaryArteriosclerosis: sct('53741008', 'Coronary arteriosclerosis'),
+  /** high confidence */
+  myocardialInfarction: sct('22298006', 'Myocardial infarction'),
+  /** high confidence */
+  stroke: sct('230690007', 'Cerebrovascular accident'),
+  /** high confidence */
+  heartFailure: sct('84114007', 'Heart failure'),
+  /** TODO confirm */
+  peripheralVascularDisease: sct('400047006', 'Peripheral vascular disease'),
+  /** high confidence */
+  atrialFibrillation: sct('49436004', 'Atrial fibrillation'),
+  /** high confidence */
+  endStageRenalDisease: sct('46177005', 'End-stage renal disease'),
+
   // Care artifacts -------------------------------------------------------
   /** high confidence */
   carePlanRecord: sct('734163000', 'Care plan'),
