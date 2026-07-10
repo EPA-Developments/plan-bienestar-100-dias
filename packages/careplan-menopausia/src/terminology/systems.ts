@@ -16,6 +16,7 @@ export const SYSTEM = {
   conditionClinical: 'http://terminology.hl7.org/CodeSystem/condition-clinical',
   conditionVerStatus: 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
   conditionCategory: 'http://terminology.hl7.org/CodeSystem/condition-category',
+  observationCategory: 'http://terminology.hl7.org/CodeSystem/observation-category',
   /**
    * Local code system for module-specific concepts that do not yet have a
    * stable LOINC/SNOMED mapping (e.g. questionnaire answer options). Replace the

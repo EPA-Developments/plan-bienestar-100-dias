@@ -35,6 +35,8 @@ export {
   type UsePlanBienestarOptions,
 } from './hooks/usePlanBienestar';
 export { PlanBienestarCard, type PlanBienestarCardProps } from './components/PlanBienestarCard';
+export { EstadioCkmCard, type EstadioCkmCardProps } from './components/EstadioCkmCard';
+export { useCkm, type Ckm, type UseCkmOptions } from './hooks/useCkm';
 export { PlanBienestarRoutes, type PlanBienestarRoutesProps } from './PlanBienestarRoutes';
 export { PasosDelPlan, type PasosDelPlanProps } from './pages/PasosDelPlan';
 export { MetasDelPlan, type MetasDelPlanProps } from './pages/MetasDelPlan';
