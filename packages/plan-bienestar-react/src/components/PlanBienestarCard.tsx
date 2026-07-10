@@ -1,5 +1,5 @@
 import type { Patient } from '@medplum/fhirtypes';
-import { Badge, Button, Card, Group, Progress, Stack, Text, Title } from '@mantine/core';
+import { Badge, Button, Card, Group, Progress, Stack, Text, ThemeIcon, Title } from '@mantine/core';
 import { useState, type ReactElement } from 'react';
 import { useNavigate } from 'react-router';
 import { useBasePath } from '../PlanBienestarContext';
@@ -54,41 +54,53 @@ export function PlanBienestarCard(props: PlanBienestarCardProps): ReactElement |
   if (plan.carePlan) {
     const progreso = plan.total > 0 ? Math.round((plan.completados / plan.total) * 100) : 0;
     return (
-      <Card withBorder radius="md" p="lg" data-testid="plan-bienestar-card">
+      <Card withBorder radius="lg" p="lg" data-testid="plan-bienestar-card">
         <Stack gap="sm">
-          <Group justify="space-between" align="flex-start">
-            <div>
-              <Badge color="teal" variant="light">
-                Plan en curso
-              </Badge>
-              <Title order={4} mt="xs">
-                {titulo}
-              </Title>
-            </div>
-            <Button onClick={() => navigate(basePath)}>Continuar mi plan</Button>
+          <Group justify="space-between" align="flex-start" wrap="wrap">
+            <Group gap="sm" wrap="nowrap">
+              <ThemeIcon variant="light" color="pink" size={44} radius="xl">
+                ❤️
+              </ThemeIcon>
+              <div>
+                <Badge color="teal" variant="light" radius="xl">
+                  Plan en curso
+                </Badge>
+                <Title order={4} mt={4}>
+                  {titulo}
+                </Title>
+              </div>
+            </Group>
+            <Button radius="xl" color="teal" onClick={() => navigate(basePath)}>
+              Continuar mi plan
+            </Button>
           </Group>
           <Text size="sm" c="dimmed">
-            {plan.completados} de {plan.total} pasos completados
+            {plan.completados} de {plan.total} pasos completados · ¡seguí así!
           </Text>
-          <Progress value={progreso} aria-label="Progreso del plan" />
+          <Progress value={progreso} size="lg" radius="xl" color="teal" aria-label="Progreso del plan" />
         </Stack>
       </Card>
     );
   }
 
   return (
-    <Card withBorder radius="md" p="lg" data-testid="plan-bienestar-card">
+    <Card withBorder radius="lg" p="lg" data-testid="plan-bienestar-card">
       <Stack gap="sm">
-        <Group justify="space-between" align="flex-start">
-          <div>
-            <Badge color="teal" variant="light">
-              Recomendado para vos
-            </Badge>
-            <Title order={4} mt="xs">
-              {titulo}
-            </Title>
-          </div>
-          <Button onClick={empezar} loading={creando}>
+        <Group justify="space-between" align="flex-start" wrap="wrap">
+          <Group gap="sm" wrap="nowrap">
+            <ThemeIcon variant="light" color="pink" size={44} radius="xl">
+              ❤️
+            </ThemeIcon>
+            <div>
+              <Badge color="teal" variant="light" radius="xl">
+                Recomendado para vos
+              </Badge>
+              <Title order={4} mt={4}>
+                {titulo}
+              </Title>
+            </div>
+          </Group>
+          <Button radius="xl" color="teal" onClick={empezar} loading={creando}>
             Empezar mi plan
           </Button>
         </Group>
@@ -97,6 +109,9 @@ export function PlanBienestarCard(props: PlanBienestarCardProps): ReactElement |
             {descripcion}
           </Text>
         )}
+        <Text size="xs" c="dimmed">
+          100 días, un paso por vez, con el respaldo de tu equipo de salud.
+        </Text>
       </Stack>
     </Card>
   );

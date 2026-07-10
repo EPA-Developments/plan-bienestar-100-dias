@@ -45,7 +45,9 @@ describe('PlanBienestarCard', () => {
 
     expect(await screen.findByRole('button', { name: 'Continuar mi plan' })).toBeInTheDocument();
     expect(
-      await screen.findByText(`0 de ${MENOPAUSE_PLAN.activities.length} pasos completados`),
+      await screen.findByText(`0 de ${MENOPAUSE_PLAN.activities.length} pasos completados`, {
+        exact: false,
+      }),
     ).toBeInTheDocument();
   });
 });

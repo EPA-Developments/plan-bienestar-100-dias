@@ -1,7 +1,7 @@
 import { createReference } from '@medplum/core';
 import type { Patient, Questionnaire, QuestionnaireResponse, Task } from '@medplum/fhirtypes';
 import { QuestionnaireForm, useMedplum } from '@medplum/react';
-import { Stack, Text, Title } from '@mantine/core';
+import { Card, Stack, Text, Title } from '@mantine/core';
 import { useEffect, useState, type ReactElement } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useBasePath, usePaciente } from '../PlanBienestarContext';
@@ -81,8 +81,16 @@ export function CuestionarioDelPlan(props: CuestionarioDelPlanProps): ReactEleme
 
   return (
     <Stack gap="md">
-      <Title order={3}>{cuestionario.title ?? 'Cuestionario'}</Title>
-      <QuestionnaireForm questionnaire={cuestionario} onSubmit={responder} />
+      <div>
+        <Title order={2}>{cuestionario.title ?? 'Cuestionario'}</Title>
+        <Text c="dimmed">
+          Tus respuestas ayudan a tu equipo a personalizar el plan. No hay respuestas correctas ni
+          incorrectas, y podés completarlo con tranquilidad.
+        </Text>
+      </div>
+      <Card withBorder radius="lg" p="lg">
+        <QuestionnaireForm questionnaire={cuestionario} onSubmit={responder} />
+      </Card>
     </Stack>
   );
 }
