@@ -33,6 +33,12 @@ La elegibilidad ("mujer de 45 a 65 años") **no vive en el código de las apps: 
 <Route path="/care-plan/plan-100-dias/*" element={<PlanBienestarRoutes />} />
 ```
 
+El módulo ya está integrado en **EPA-Developments/app** y **drdalessandro/app**
+(vendorizado mientras los paquetes no estén en npm) y ambas apps suman un
+onboarding de Bienvenida que captura sexo y fecha de nacimiento — los datos que
+la elegibilidad necesita — además de celular, domicilio y DNI (FHIR Argentina).
+Detalles y prerequisitos del servidor: [docs/integracion-apps.md](docs/integracion-apps.md).
+
 ### Gestión: 2 clicks, sin redeploy
 
 1. **Click 1:** en el Medplum App, abrir la `PlanDefinition` "Plan cardiovascular en menopausia".
