@@ -1,5 +1,11 @@
-import { buildMenopausePlanDefinition } from '@epa/careplan-menopausia';
-import { PlanBienestarCard, PlanBienestarRoutes, useElegibilidad } from '@epa/plan-bienestar-react';
+import { buildMenopausePlanDefinition, LOINC } from '@epa/careplan-menopausia';
+import {
+  EstadioCkmCard,
+  PlanBienestarCard,
+  PlanBienestarRoutes,
+  RiesgoPreventCard,
+  useElegibilidad,
+} from '@epa/plan-bienestar-react';
 import {
   Alert,
   Anchor,
@@ -46,6 +52,27 @@ async function sembrar(): Promise<Escenario> {
   const planDefinition = await medplum.createResource<PlanDefinition>(
     buildMenopausePlanDefinition({ now: HOY }),
   );
+
+  // Datos de laboratorio de Maria para que el mapa CKM y PREVENT tengan que mostrar.
+  const obs = (code: string, value: number): Promise<unknown> =>
+    medplum.createResource({
+      resourceType: 'Observation',
+      status: 'final',
+      code: { coding: [{ system: 'http://loinc.org', code }] },
+      subject: { reference: `Patient/${maria.id}` },
+      valueQuantity: { value },
+      effectiveDateTime: `${HOY}T09:00:00Z`,
+    });
+  await Promise.all([
+    obs(LOINC.totalCholesterol.code as string, 214),
+    obs(LOINC.hdlCholesterol.code as string, 46),
+    obs(LOINC.systolicBloodPressure.code as string, 138),
+    obs(LOINC.bmi.code as string, 28),
+    obs(LOINC.waistCircumference.code as string, 94),
+    obs(LOINC.egfr.code as string, 82),
+    obs(LOINC.fastingGlucose.code as string, 104),
+  ]);
+
   return { medplum, maria, carlos, planDefinition };
 }
 
@@ -139,7 +166,13 @@ function Panel({ escenario }: { escenario: Escenario }): ReactElement {
         <Routes key={`rutas-${pacienteId}-${clave}`}>
           <Route
             path="/"
-            element={<PlanBienestarCard patient={paciente} basePath="/care-plan/plan-100-dias" />}
+            element={
+              <Stack gap="md">
+                <PlanBienestarCard patient={paciente} basePath="/care-plan/plan-100-dias" />
+                <EstadioCkmCard patient={paciente} />
+                <RiesgoPreventCard patient={paciente} basePath="/care-plan/plan-100-dias" />
+              </Stack>
+            }
           />
           <Route
             path="/care-plan/plan-100-dias/*"
