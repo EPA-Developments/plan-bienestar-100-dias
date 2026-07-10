@@ -15,7 +15,7 @@ describe('PasosDelPlan', () => {
 
     renderConProveedores(medplum, <PasosDelPlan patient={maria} />);
 
-    expect(await screen.findByText(MENOPAUSE_PLAN.title)).toBeInTheDocument();
+    expect(await screen.findByText('Tu plan de 100 días')).toBeInTheDocument();
     const total = MENOPAUSE_PLAN.activities.length;
     expect(screen.getByText(`0 de ${total} pasos completados`, { exact: false })).toBeInTheDocument();
 
