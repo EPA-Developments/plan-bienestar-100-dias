@@ -4,6 +4,7 @@ import type {
   Patient,
   Practitioner,
   PractitionerRole,
+  Questionnaire,
   Reference,
   RelatedPerson,
 } from '@medplum/fhirtypes';
@@ -35,6 +36,13 @@ export interface BuildMenopauseCarePlanOptions {
   includeCondition?: boolean;
   /** Include the screening Questionnaire and link it to a Task. Default `true`. */
   includeQuestionnaire?: boolean;
+  /**
+   * Reference to a Questionnaire that ALREADY exists on the server (seeded
+   * once, like the PlanDefinition). When set, the bundle does not create a
+   * Questionnaire and Tasks point to this one instead. Required under
+   * restrictive access policies where patients cannot create Questionnaires.
+   */
+  existingQuestionnaire?: Reference<Questionnaire>;
   /**
    * Canonical URL of the PlanDefinition the CarePlan instantiates. Defaults to
    * the menopause plan definition URL, letting apps find plans created from it.

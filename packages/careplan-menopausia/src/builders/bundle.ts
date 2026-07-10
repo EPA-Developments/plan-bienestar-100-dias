@@ -46,13 +46,16 @@ export function buildMenopauseCarePlanBundle(options: BuildMenopauseCarePlanOpti
   const patient = toReference(options.patient);
   const { now } = options;
   const includeCondition = options.includeCondition ?? true;
-  const includeQuestionnaire = options.includeQuestionnaire ?? true;
+  const existingQuestionnaireRef = options.existingQuestionnaire?.reference;
+  // A server-side Questionnaire takes precedence: nothing to create in-bundle.
+  const includeQuestionnaire = (options.includeQuestionnaire ?? true) && !existingQuestionnaireRef;
   const lifeStage = options.lifeStage ? LIFE_STAGES[options.lifeStage] : undefined;
 
   // Pre-generate urn:uuid placeholders so resources can cross-reference.
   const carePlanUrn = urn(generateId());
   const careTeamUrn = urn(generateId());
   const questionnaireUrn = includeQuestionnaire ? urn(generateId()) : undefined;
+  const questionnaireRef = existingQuestionnaireRef ?? questionnaireUrn;
   const conditionUrn = includeCondition ? urn(generateId()) : undefined;
 
   const goalEntries = MENOPAUSE_PLAN.goals.map((template) => ({
@@ -65,7 +68,7 @@ export function buildMenopauseCarePlanBundle(options: BuildMenopauseCarePlanOpti
     resource: buildTask(template, {
       patient,
       carePlan: carePlanUrn,
-      questionnaire: questionnaireUrn,
+      questionnaire: questionnaireRef,
       now,
     }),
   }));

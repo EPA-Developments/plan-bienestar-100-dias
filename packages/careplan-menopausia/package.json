@@ -1,6 +1,6 @@
 {
   "name": "@epa/careplan-menopausia",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Fabrica de recursos FHIR R4 para el CarePlan de salud cardiovascular de la mujer en menopausia (Plan Bienestar 100 Dias), basado en el marco AHA Cardiovascular-Kidney-Metabolic (Ndumele) y la declaracion AHA de menopausia. Modulo drop-in para apps FooMedical / Medplum.",
   "license": "Apache-2.0",
   "type": "module",
