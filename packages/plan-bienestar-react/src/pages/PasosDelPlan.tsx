@@ -17,6 +17,7 @@ import {
 } from '@mantine/core';
 import { useNavigate } from 'react-router';
 import { useBasePath } from '../PlanBienestarContext';
+import { useCobertura } from '../hooks/useCobertura';
 import { usePlanBienestar } from '../hooks/usePlanBienestar';
 import { fraseDeAliento, GRUPOS_DE_PASOS, pasoConCuestionario, tipoDePaso } from '../fhirTexto';
 
@@ -39,10 +40,12 @@ function diaDelPlan(inicio: string | undefined, hoy: Date = new Date()): number 
 
 function PasoCard({
   paso,
+  soloLectura,
   onCompletar,
   onCuestionario,
 }: {
   paso: Task;
+  soloLectura?: boolean;
   onCompletar: (completado: boolean) => void;
   onCuestionario: () => void;
 }): ReactElement {
@@ -56,6 +59,7 @@ function PasoCard({
           radius="xl"
           color="teal"
           checked={completado}
+          disabled={soloLectura}
           onChange={(event) => onCompletar(event.currentTarget.checked)}
           aria-label={paso.code?.text ?? 'Paso del plan'}
         />
@@ -75,7 +79,7 @@ function PasoCard({
               {paso.description}
             </Text>
           )}
-          {pasoConCuestionario(paso) && !completado && (
+          {pasoConCuestionario(paso) && !completado && !soloLectura && (
             <div>
               <Button variant="light" color="teal" size="xs" radius="xl" onClick={onCuestionario}>
                 Responder cuestionario →
@@ -93,6 +97,7 @@ export function PasosDelPlan(props: PasosDelPlanProps): ReactElement {
   const navigate = useNavigate();
   const basePath = useBasePath(props.basePath);
   const plan = usePlanBienestar({ patient: props.patient });
+  const cobertura = useCobertura({ patient: props.patient });
 
   if (plan.cargando) {
     return (
@@ -200,6 +205,7 @@ export function PasosDelPlan(props: PasosDelPlanProps): ReactElement {
               <PasoCard
                 key={paso.id}
                 paso={paso}
+                soloLectura={cobertura.soloLectura}
                 onCompletar={(completado) => plan.completarPaso(paso, completado)}
                 onCuestionario={() => navigate(`${basePath}/cuestionario/${paso.id}`)}
               />
