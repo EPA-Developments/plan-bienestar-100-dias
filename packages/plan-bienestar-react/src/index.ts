@@ -35,6 +35,16 @@ export {
   type UsePlanBienestarOptions,
 } from './hooks/usePlanBienestar';
 export { PlanBienestarCard, type PlanBienestarCardProps } from './components/PlanBienestarCard';
+export {
+  useCobertura,
+  PB100D_CODIGO,
+  PLAN_CODIGO_EXT_DEFAULT,
+  TASK_TIPO_SYSTEM_DEFAULT,
+  SOLICITUD_PLAN_CODIGO,
+  type Cobertura,
+  type CoberturaConfig,
+  type EstadoCobertura,
+} from './hooks/useCobertura';
 export { EstadioCkmCard, type EstadioCkmCardProps } from './components/EstadioCkmCard';
 export { useCkm, type Ckm, type UseCkmOptions } from './hooks/useCkm';
 export { RiesgoPreventCard, type RiesgoPreventCardProps } from './components/RiesgoPreventCard';
