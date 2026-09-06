@@ -105,6 +105,27 @@ export {
   MENOPAUSE_QUESTIONNAIRE_URL,
 } from './content/menopausia/index.js';
 
+// Contrato PB100D — identificadores compartidos por los cuatro repos ----------
+export {
+  BASES_ACEPTADAS,
+  BASE_CANONICA,
+  COD,
+  EXT,
+  EXT_SUFIJO,
+  PB100D_CODIGO,
+  PB100D_DURACION_DIAS,
+  PB100D_EVALUACION_DIAS,
+  PB100D_NOMBRE,
+  PLAN_DEFINITION_URL,
+  QUESTIONNAIRE_URL,
+  SYS,
+  SYS_SUFIJO,
+  buscarExtension,
+  coincide,
+  esCarePlanDelPrograma,
+  urlsDe,
+} from './contrato/index.js';
+
 // MDPA — monitoreo domiciliario de presión arterial ---------------------------
 export {
   MDPA_DIAS_ALTOS_PARA_REVISION,
