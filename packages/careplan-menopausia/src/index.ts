@@ -105,6 +105,52 @@ export {
   MENOPAUSE_QUESTIONNAIRE_URL,
 } from './content/menopausia/index.js';
 
+// MDPA — monitoreo domiciliario de presión arterial ---------------------------
+export {
+  MDPA_DIAS_DE_SERIE,
+  MDPA_OBJETIVO_CLINICO,
+  MDPA_OBJETIVO_IDEAL,
+  MDPA_TOMAS_ALTAS_PARA_REVISION,
+  MDPA_UMBRAL_PROMEDIO,
+  MDPA_UMBRAL_TOMA,
+  MDPA_UMBRAL_URGENTE,
+  evaluarMdpa,
+  mensajeParaPaciente,
+  type MomentoDelDia,
+  type NivelAviso,
+  type PresionObjetivo,
+  type ResultadoMdpa,
+  type TomaPresion,
+} from './mdpa/index.js';
+
+// Biblioteca cerrada de acciones (Anexo C) + escalera de niveles --------------
+export {
+  BIBLIOTECA_NIVEL_1,
+  EXCLUSIONES_MUTUAS,
+  PILARES,
+  accionesDisponibles,
+  buscarAccion,
+  mencionaDosificacionGlp1,
+  validarSeleccion,
+  NIVELES,
+  buscarNivel,
+  estadoNivel,
+  nivelesHabilitables,
+  type Accion,
+  type CodigoAccion,
+  type EstadoNivel,
+  type Flag,
+  type MotivoRechazo,
+  type Nivel,
+  type NivelId,
+  type PerfilBaseline,
+  type Pilar,
+  type PuertasDeSeguridad,
+  type Rechazo,
+  type ResultadoValidacion,
+  type Senal,
+} from './biblioteca/index.js';
+
 // Domain model ----------------------------------------------------------------
 export {
   LIFE_STAGES,
