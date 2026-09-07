@@ -2,6 +2,7 @@ import type { ReactElement } from 'react';
 import type { Patient } from '@medplum/fhirtypes';
 import { Route, Routes } from 'react-router';
 import { CargarDatosCkm } from './components/CargarDatosCkm';
+import { CuestionarioBaseline } from './pages/CuestionarioBaseline';
 import { CuestionarioDelPlan } from './pages/CuestionarioDelPlan';
 import { MetasDelPlan } from './pages/MetasDelPlan';
 import { PasosDelPlan } from './pages/PasosDelPlan';
@@ -20,7 +21,8 @@ export interface PlanBienestarRoutesProps {
  * <Route path="/care-plan/plan-100-dias/*" element={<PlanBienestarRoutes />} />
  * ```
  *
- * Index: pasos del plan · `metas`: goals · `cuestionario/:taskId`: screening.
+ * Index: pasos del plan · `metas`: goals · `mis-datos`: CKM · `contanos`:
+ * cuestionario inicial · `cuestionario/:taskId`: screening de un paso.
  */
 export function PlanBienestarRoutes(props: PlanBienestarRoutesProps): ReactElement {
   return (
@@ -28,6 +30,10 @@ export function PlanBienestarRoutes(props: PlanBienestarRoutesProps): ReactEleme
       <Route index element={<PasosDelPlan patient={props.patient} basePath={props.basePath} />} />
       <Route path="metas" element={<MetasDelPlan patient={props.patient} basePath={props.basePath} />} />
       <Route path="mis-datos" element={<CargarDatosCkm patient={props.patient} />} />
+      <Route
+        path="contanos"
+        element={<CuestionarioBaseline patient={props.patient} basePath={props.basePath} />}
+      />
       <Route
         path="cuestionario/:taskId"
         element={<CuestionarioDelPlan patient={props.patient} basePath={props.basePath} />}
