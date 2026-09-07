@@ -48,57 +48,74 @@ export const PILARES: Record<Pilar, { nombre: string; emoji: string }> = {
 };
 
 /**
- * Señales del cuestionario baseline que **habilitan** acciones.
+ * Señales que **habilitan** acciones.
  *
- * Son auto-reportadas por la paciente: sirven para elegir entre acciones
- * seguras, nunca para levantar una contraindicación. Para eso están los `Flag`.
+ * Casi todas se auto-reportan en el cuestionario baseline: sirven para elegir
+ * entre acciones seguras, nunca para levantar una contraindicación. Para eso
+ * están los `Flag`.
+ *
+ * Es un array y no sólo un tipo porque hace falta recorrerlas en tiempo de
+ * ejecución: el cuestionario baseline tiene un test que verifica que produce
+ * todas, así una señal nueva en la biblioteca no queda sin pregunta que la active.
  */
-export type Senal =
+export const SENALES = [
   // Etapa de cambio (Transtheoretical Model)
-  | 'etapa:contemplacion'
-  | 'etapa:preparacion'
-  | 'etapa:accion'
+  'etapa:contemplacion',
+  'etapa:preparacion',
+  'etapa:accion',
   // Autoeficacia
-  | 'autoeficacia:baja'
-  | 'autoeficacia:media'
-  | 'autoeficacia:fisica-baja'
+  'autoeficacia:baja',
+  'autoeficacia:media',
+  'autoeficacia:fisica-baja',
   // Digestivo / tolerancia
-  | 'barrera:nauseas'
-  | 'barrera:nauseas-leves'
-  | 'barrera:estrenimiento'
-  | 'barrera:reflujo'
-  | 'barrera:saciedad-precoz'
-  | 'barrera:inapetencia'
-  | 'barrera:ingesta-rapida'
-  | 'barrera:perdida-muscular'
+  'barrera:nauseas',
+  'barrera:nauseas-leves',
+  'barrera:estrenimiento',
+  'barrera:reflujo',
+  'barrera:saciedad-precoz',
+  'barrera:inapetencia',
+  'barrera:ingesta-rapida',
+  'barrera:perdida-muscular',
   // Piso pélvico y movimiento
-  | 'barrera:incontinencia-leve'
-  | 'barrera:temor-caidas'
-  | 'barrera:dolor-articular'
-  | 'barrera:sedentarismo'
+  'barrera:incontinencia-leve',
+  'barrera:temor-caidas',
+  'barrera:dolor-articular',
+  'barrera:sedentarismo',
   // Sueño y termorregulación
-  | 'barrera:sofocos-nocturnos'
-  | 'barrera:sofocos-conciliacion'
-  | 'barrera:despertares-precoces'
-  | 'barrera:pantallas-nocturnas'
-  | 'barrera:fatiga-matutina'
-  | 'barrera:ansiedad-nocturna'
-  | 'barrera:alcohol-picante'
-  | 'barrera:horarios-irregulares'
+  'barrera:sofocos-nocturnos',
+  'barrera:sofocos-conciliacion',
+  'barrera:despertares-precoces',
+  'barrera:pantallas-nocturnas',
+  'barrera:fatiga-matutina',
+  'barrera:ansiedad-nocturna',
+  'barrera:alcohol-picante',
+  'barrera:horarios-irregulares',
   // Conducta y adherencia
-  | 'barrera:falta-de-tiempo'
-  | 'barrera:imprevistos'
-  | 'barrera:ingesta-emocional'
-  | 'barrera:olvidos'
-  | 'barrera:frustracion-peso'
-  | 'barrera:ingesta-impulsiva'
-  // Clínico
-  | 'clinico:resistencia-insulina'
-  | 'clinico:estres-elevado'
+  'barrera:falta-de-tiempo',
+  'barrera:imprevistos',
+  'barrera:ingesta-emocional',
+  'barrera:olvidos',
+  'barrera:frustracion-peso',
+  'barrera:ingesta-impulsiva',
+  'clinico:estres-elevado',
+  // Clínico: no sale del cuestionario
+  'clinico:resistencia-insulina',
   // Preferencias
-  | 'preferencia:alta-proteina'
-  | 'preferencia:remedios-naturales'
-  | 'preferencia:apoyo-social';
+  'preferencia:alta-proteina',
+  'preferencia:remedios-naturales',
+  'preferencia:apoyo-social',
+] as const;
+
+export type Senal = (typeof SENALES)[number];
+
+/**
+ * Señales que **no** se preguntan: derivan de datos clínicos.
+ *
+ * La resistencia a la insulina sale del laboratorio (HOMA-IR, triglicéridos,
+ * HDL, HbA1c), no de lo que la paciente perciba. El cuestionario no tiene por
+ * qué cubrirlas, y el test de cobertura las excluye.
+ */
+export const SENALES_CLINICAS: readonly Senal[] = Object.freeze(['clinico:resistencia-insulina']);
 
 /**
  * Hallazgos **clínicos** que contraindican o fuerzan acciones.
@@ -753,14 +770,29 @@ export function validarSeleccion(codigos: readonly string[], perfil: PerfilBasel
  * Deliberadamente conservador (prefiere un falso positivo a dejar pasar una
  * indicación): el texto rechazado se reemplaza por el racional de la biblioteca.
  */
-export function mencionaDosificacionGlp1(texto: string): boolean {
-  const t = texto
+const FARMACO_GLP1 =
+  /(glp-?1|semaglutid|tirzepatid|liraglutid|dulaglutid|ozempic|wegovy|mounjaro|saxenda|trulicity|victoza)/;
+
+function normalizar(texto: string): string {
+  return texto
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
-  const farmaco =
-    /(glp-?1|semaglutid|tirzepatid|liraglutid|dulaglutid|ozempic|wegovy|mounjaro|saxenda|trulicity|victoza)/;
-  if (!farmaco.test(t)) {
+}
+
+/**
+ * ¿Este texto nombra un agonista de GLP-1?
+ *
+ * Para decidir `conGlp1` desde la medicación registrada, que es más confiable
+ * que lo que la paciente recuerde haber respondido en el cuestionario.
+ */
+export function esGlp1(texto: string): boolean {
+  return FARMACO_GLP1.test(normalizar(texto));
+}
+
+export function mencionaDosificacionGlp1(texto: string): boolean {
+  const t = normalizar(texto);
+  if (!FARMACO_GLP1.test(t)) {
     return false;
   }
   const dosificacion =

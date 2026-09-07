@@ -105,6 +105,23 @@ export {
   MENOPAUSE_QUESTIONNAIRE_URL,
 } from './content/menopausia/index.js';
 
+// Cuestionario baseline — de dónde salen las señales de la biblioteca --------
+export {
+  BASELINE_GRUPOS,
+  BASELINE_PREGUNTAS,
+  BASELINE_QUESTIONNAIRE_URL,
+  GLP1_CODE_SI,
+  GLP1_LINK_ID,
+  baselineQuestionnaireItems,
+  buildBaselineQuestionnaire,
+  perfilDesdeRespuesta,
+  senalesDelBaseline,
+  type GrupoBaseline,
+  type OpcionBaseline,
+  type PerfilDesdeRespuestaOptions,
+  type PreguntaBaseline,
+} from './baseline/index.js';
+
 // Contrato PB100D — identificadores compartidos por los cuatro repos ----------
 export {
   BASES_ACEPTADAS,
@@ -154,8 +171,11 @@ export {
   BIBLIOTECA_NIVEL_1,
   EXCLUSIONES_MUTUAS,
   PILARES,
+  SENALES,
+  SENALES_CLINICAS,
   accionesDisponibles,
   buscarAccion,
+  esGlp1,
   mencionaDosificacionGlp1,
   validarSeleccion,
   NIVELES,
