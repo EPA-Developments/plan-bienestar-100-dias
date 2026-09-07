@@ -62,6 +62,8 @@ export {
 } from './hooks/useDatosCkm';
 export { PlanBienestarRoutes, type PlanBienestarRoutesProps } from './PlanBienestarRoutes';
 export { PasosDelPlan, type PasosDelPlanProps } from './pages/PasosDelPlan';
+export { CuestionarioBaseline, type CuestionarioBaselineProps } from './pages/CuestionarioBaseline';
+export { useBaseline, type Baseline, type SeleccionBaseline, type UseBaselineOptions } from './hooks/useBaseline';
 export { MetasDelPlan, type MetasDelPlanProps } from './pages/MetasDelPlan';
 export { CuestionarioDelPlan, type CuestionarioDelPlanProps } from './pages/CuestionarioDelPlan';
 export { asegurarPlanDefinition, asegurarRecursosDelPlan } from './servidor';

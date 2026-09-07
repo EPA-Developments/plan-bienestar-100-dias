@@ -1,4 +1,6 @@
 import {
+  BASELINE_QUESTIONNAIRE_URL,
+  buildBaselineQuestionnaire,
   buildMenopausePlanDefinition,
   buildMenopauseQuestionnaire,
   MENOPAUSE_PLAN_DEFINITION_URL,
@@ -18,7 +20,7 @@ import type { PlanDefinition, Questionnaire } from '@medplum/fhirtypes';
  */
 export async function asegurarRecursosDelPlan(
   medplum: MedplumClient,
-): Promise<{ planDefinition: PlanDefinition; questionnaire: Questionnaire }> {
+): Promise<{ planDefinition: PlanDefinition; questionnaire: Questionnaire; baseline: Questionnaire }> {
   const hoy = new Date().toISOString().slice(0, 10);
 
   const definiciones = await medplum.searchResources('PlanDefinition', {
@@ -35,7 +37,13 @@ export async function asegurarRecursosDelPlan(
     cuestionarios[0] ??
     (await medplum.createResource<Questionnaire>(buildMenopauseQuestionnaire({ now: hoy })));
 
-  return { planDefinition, questionnaire };
+  // Cuestionario inicial: de sus respuestas sale el perfil con el que el
+  // Dashboard personaliza el plan.
+  const baselines = await medplum.searchResources('Questionnaire', { url: BASELINE_QUESTIONNAIRE_URL });
+  const baseline =
+    baselines[0] ?? (await medplum.createResource<Questionnaire>(buildBaselineQuestionnaire()));
+
+  return { planDefinition, questionnaire, baseline };
 }
 
 /**

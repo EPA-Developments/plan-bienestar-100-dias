@@ -17,6 +17,7 @@ import {
 } from '@mantine/core';
 import { useNavigate } from 'react-router';
 import { useBasePath } from '../PlanBienestarContext';
+import { useBaseline } from '../hooks/useBaseline';
 import { useCobertura } from '../hooks/useCobertura';
 import { usePlanBienestar } from '../hooks/usePlanBienestar';
 import { fraseDeAliento, GRUPOS_DE_PASOS, pasoConCuestionario, tipoDePaso } from '../fhirTexto';
@@ -92,12 +93,43 @@ function PasoCard({
   );
 }
 
+/**
+ * Invitación a completar el cuestionario inicial.
+ *
+ * Aparece también cuando todavía no hay plan: esa es justo la paciente que más
+ * necesita responderlo, porque de sus respuestas sale la personalización del
+ * plan que le van a armar.
+ */
+function InvitacionBaseline({ onIr }: { onIr: () => void }): ReactElement {
+  return (
+    <Card withBorder radius="lg" p="lg" bg="teal.0">
+      <Group justify="space-between" wrap="wrap" gap="md">
+        <Group gap="sm" wrap="nowrap">
+          <ThemeIcon variant="light" color="teal" size={40} radius="xl">
+            📝
+          </ThemeIcon>
+          <div>
+            <Text fw={600}>Contanos de vos</Text>
+            <Text size="sm" c="dimmed">
+              Unas preguntas cortas para que tu plan se parezca a tu día a día.
+            </Text>
+          </div>
+        </Group>
+        <Button color="teal" radius="xl" onClick={onIr}>
+          Empezar
+        </Button>
+      </Group>
+    </Card>
+  );
+}
+
 /** "Pasos del plan": the CarePlan's Tasks as a warm, completable checklist. */
 export function PasosDelPlan(props: PasosDelPlanProps): ReactElement {
   const navigate = useNavigate();
   const basePath = useBasePath(props.basePath);
   const plan = usePlanBienestar({ patient: props.patient });
   const cobertura = useCobertura({ patient: props.patient });
+  const baseline = useBaseline({ patient: props.patient });
 
   if (plan.cargando) {
     return (
@@ -111,17 +143,22 @@ export function PasosDelPlan(props: PasosDelPlanProps): ReactElement {
 
   if (!plan.carePlan) {
     return (
-      <Card withBorder radius="lg" p="xl">
-        <Stack gap="xs" align="center">
-          <ThemeIcon variant="light" color="teal" size={48} radius="xl">
-            🌱
-          </ThemeIcon>
-          <Title order={4}>Todavia no empezaste el plan</Title>
-          <Text c="dimmed" ta="center">
-            Volvé a la página de inicio y tocá «Empezar mi plan» para dar el primer paso.
-          </Text>
-        </Stack>
-      </Card>
+      <Stack gap="lg">
+        {!baseline.cargando && !baseline.respondido && (
+          <InvitacionBaseline onIr={() => navigate(`${basePath}/contanos`)} />
+        )}
+        <Card withBorder radius="lg" p="xl">
+          <Stack gap="xs" align="center">
+            <ThemeIcon variant="light" color="teal" size={48} radius="xl">
+              🌱
+            </ThemeIcon>
+            <Title order={4}>Todavia no empezaste el plan</Title>
+            <Text c="dimmed" ta="center">
+              Volvé a la página de inicio y tocá «Empezar mi plan» para dar el primer paso.
+            </Text>
+          </Stack>
+        </Card>
+      </Stack>
     );
   }
 
@@ -141,6 +178,10 @@ export function PasosDelPlan(props: PasosDelPlanProps): ReactElement {
           </div>
         </Group>
       </div>
+
+      {!baseline.cargando && !baseline.respondido && (
+        <InvitacionBaseline onIr={() => navigate(`${basePath}/contanos`)} />
+      )}
 
       <Card withBorder radius="lg" p="lg">
         <Group gap="lg" align="center" wrap="wrap">
@@ -177,9 +218,16 @@ export function PasosDelPlan(props: PasosDelPlanProps): ReactElement {
               <Text size="sm" c="dimmed">
                 {fraseDeAliento(progreso)}
               </Text>
-              <Anchor size="sm" fw={500} onClick={() => navigate(`${basePath}/metas`)}>
-                Ver mis metas →
-              </Anchor>
+              <Group gap="md">
+                {baseline.respondido && (
+                  <Anchor size="sm" fw={500} onClick={() => navigate(`${basePath}/contanos`)}>
+                    Actualizar mis respuestas
+                  </Anchor>
+                )}
+                <Anchor size="sm" fw={500} onClick={() => navigate(`${basePath}/metas`)}>
+                  Ver mis metas →
+                </Anchor>
+              </Group>
             </Group>
           </Stack>
         </Group>

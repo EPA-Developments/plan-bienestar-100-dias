@@ -1,5 +1,27 @@
 # Changelog
 
+## `@epa/plan-bienestar-react` 0.6.0
+
+### Cuestionario inicial de la paciente
+
+- **`CuestionarioBaseline`** (ruta `contanos`): de acá sale todo lo que hace que
+  el plan sea suyo. De a un grupo por pantalla, con progreso — son 21 preguntas
+  y se completan desde el teléfono; con la lista entera a la vista la gente
+  abandona.
+- Las preguntas y sus opciones **no están escritas en la pantalla**: salen de
+  `BASELINE_PREGUNTAS` (`@epa/careplan-menopausia`), la misma declaración de la
+  que sale el mapeo respuesta → señal. Lo que la paciente lee y lo que activa
+  cada respuesta no pueden separarse.
+- **`useBaseline()`**: lee la última respuesta, la precarga al volver a entrar, y
+  al guardar **crea una respuesta nueva en vez de pisar la anterior**. Las viejas
+  son historia clínica: si en marzo tenía náuseas y en junio no, las dos cosas
+  fueron ciertas.
+- «Ninguna de estas» es excluyente: marcarla destilda las barreras, y marcar una
+  barrera la destilda a ella.
+- `PasosDelPlan` invita a completarlo, **también cuando todavía no hay plan** —
+  esa es justo la paciente que más necesita responderlo.
+- `asegurarRecursosDelPlan()` siembra además el `Questionnaire` del baseline.
+
 ## `@epa/plan-bienestar-react` 0.5.0
 
 ### Gate comercial (monetización PB100D®)
